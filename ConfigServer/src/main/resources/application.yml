@@ -1,0 +1,15 @@
+server:
+  port: 8888
+
+# Amaç bir şeyleri yayınlamak. Local veya git vs kullanılabilir.
+
+spring:
+  profiles:
+    active: native
+  cloud: #cloudun configi olduğu için
+    config:
+      server:
+        native: #adresini belitmemeiz gerekiyor
+          search-locations: classpath:/config-repo  #projenin rootunda, classpathinde. Bunu bulduğunda var olan yayınlanablir dosyaları yayınlayacak
+
+

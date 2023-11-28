@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: config-server-git
+  #git rest apisine istek atmak istiyoruz-developerız
+  profiles:
+    active: development

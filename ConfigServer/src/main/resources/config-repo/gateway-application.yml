@@ -1,0 +1,46 @@
+server:
+  port: 80
+
+spring:
+  main:
+    web-application-type: reactive #arkada rest api çalıştırıyoruz isteğe cevap verecek sekilde yazıldı
+  application:
+    name: api-gateway-server
+  cloud:
+    gateway: #configyre etmek istediğimiz sey gateway
+      # Eğer bir routing işleminde yönlendirme giden yolu tarif etmiyor ise yakaladığı sekilde iletir
+      #yani: http://localhost/auth/getmassage -> http://localhost:9090/auth/getmessage
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+
+      routes:  #Burafa yönlendirmeler olacak, auth service, video edit, servies...
+        - id: auth-service # her yonlendirmenin id si olacak
+          uri: http://localhost:9090  #yönlendirmek istediğimiz micreservisin adresi,localde test edebilmek için auth service localini yazıyoruz
+          # http://gateway/auth/getmessage
+          predicates: #ilgili gateway e gelen isteğin kökünden(root) sonra gelen adrees irdelenir.
+            - Path=/auth/** #bana gelen isteği al içeriği auth ile eşleştir. auth tarafından yakala
+          filters: #sorun oldğunda gelen isteği filtreleyip end pointlere yönlendirmek
+              - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+              - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/auth
+        - id: user-service
+          uri: http://localhost:9092
+          predicates:
+            - Path=/user/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+            - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/user
+      default-filters:
+        - RewritePath= /(?<segment>.*), /api/v1/$\{segment} #ikisini de yakalıyor

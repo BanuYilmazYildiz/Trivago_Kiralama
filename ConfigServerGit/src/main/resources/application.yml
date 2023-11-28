@@ -1,0 +1,16 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server-git
+  cloud:
+    config:
+      server:
+        git:
+          uri: "https://github.com/BanuYilmazYildiz/trivagoAppConfigServer.git" #hangi adresten alacağını söyle
+          default-label: main #hangi branchte çalışmak istedeiğinizi soruyor
+          skip-ssl-validation: true # erişim sağlamak istediğiniz yerde ssl yoksa bunu es gecebilir diye
+          username: BanuYilmazYildiz
+          password: ${GIT_KEY}
+

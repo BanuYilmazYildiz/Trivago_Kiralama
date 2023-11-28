@@ -1,0 +1,23 @@
+server:
+  port: 9090
+
+spring:
+  rabbitmq:
+    host: localhost #34.155.175.192
+    port: 5672 #rest portu
+    username: java11
+    password: 123
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root #${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/trivagoAuthDB #${POSTGRES_URL}
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+my-application:
+  user-profile-end-point: http://localhost:9092/user-profile #${USER_PROFILE_URL}
+  secret-key: "Yoklr8?8h8biDrOtiS_iT_opheQlKE@l3WEVL_!a4E6e#r*Seb+phEwO$7arURaZ"
+  ## secret-key2: ${SECRETKEY}

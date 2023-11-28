@@ -1,0 +1,57 @@
+plugins {
+    id 'java' //java kulllanıyoruz onun blugini lazım
+    id 'org.springframework.boot' version '3.1.5' //springboot ve kullanılacak versiyonu yazıyoruz
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'application'
+    //pluginler yazıldığı zaman kullanıyoruz anlamına gelmiyor. nerede kullanacağımızı belirtmemiz lazım
+}
+allprojects {
+    //yukarıda yazdıklarımızı kullanacağımızı belirtiyoruz
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'application'
+    apply plugin: 'java-library' //javanın kütüphaneleri
+    apply from: "${rootDir}/dependencies.gradle"
+}
+
+subprojects {
+    group = 'com.banu' //projenin kendi grup id si
+    version = 'v.0.1'
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    } // Türkçe karakter için
+}
+
+allprojects {
+    // bağımlılıkların kaynağı ne
+    repositories {
+        mavenCentral()
+        google()
+    }
+    // autmicroservice den jar dosyası cıkarıcam bağımlılıkları nereden indireceğimi söylemek için yapıyoruz
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+    }
+
+    dependencies {
+        implementation libs.springBootStarterWeb
+        implementation libs.swaggerui
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        implementation libs.mapstruct
+        annotationProcessor libs.mapstructProcessor
+        implementation libs.jwt
+        testImplementation libs.springBootTest
+    }
+}
+
+configurations { //allprojects dışına yazılıyor
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
