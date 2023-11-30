@@ -20,4 +20,5 @@ public interface UserProfileManager {
     @PostMapping("/save")
     ResponseEntity<Void> save(@RequestBody @Valid UserProfileSaveRequestDto dto);
 
+
 }

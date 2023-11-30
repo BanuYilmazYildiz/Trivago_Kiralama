@@ -1,0 +1,31 @@
+type UserProfile{  #userprofilequeryresolver icinde yazdığımız methodlarla eslesecek
+    id: ID!   # !-> bos gelebilir
+    userId: String
+    authId: Int
+    userName: String
+    email: String
+    name: String
+    photo: String
+}
+
+# query ve mutatiın graphql in bildiği typler
+# Java tarafında sorgu sınıfda tanımlanan metodları burada işliyoruz
+type Query {
+    findAll: [UserProfile]  #UserProfile array donecek
+    findById(id: ID!): UserProfile
+}
+
+type Mutation{
+    saveUser(input: UserProfileInput): UserProfile
+}
+
+input UserProfileInput{
+     authId: Int
+     name: String
+     userName: String
+     email: String
+     userId: String
+     phone: String
+     photo: String
+}
+

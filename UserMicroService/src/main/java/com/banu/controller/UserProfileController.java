@@ -8,6 +8,7 @@ import com.banu.repository.entity.UserProfile;
 import com.banu.service.UserProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,5 +57,10 @@ public class UserProfileController {
     public ResponseEntity<Void> clearKey(String key){
         userProfileService.clearKey(key);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/find-all-page")
+    public ResponseEntity<Page<UserProfile>> findAllPage(int page, int size, String sortParameter, String sortDirection){
+        return ResponseEntity.ok(userProfileService.findAll(page,size,sortParameter,sortDirection));
     }
 }

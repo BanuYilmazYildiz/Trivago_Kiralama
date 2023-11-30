@@ -26,7 +26,7 @@ public class JwtTokenManager {
 
     private final String ISSUER = "Java11BoostAuth";
 
-    private final Long EXDATE = 1000L * 300; // 30 saniye
+    private final Long EXDATE = 1000L * 300; // 5 dakika
 
     /**
      * Kişiyi benzersiz kılan kişinin auth id'si ya da username'idir.

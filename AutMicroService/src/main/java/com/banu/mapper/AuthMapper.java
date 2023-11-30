@@ -17,4 +17,8 @@ public interface AuthMapper {
     @Mapping(source = "id", target = "authId")
     UserProfileSaveRequestDto fromAuth(final Auth auth);
 
+
+
+
+
 }

@@ -30,7 +30,7 @@
     docker run --name lokalredis -d -p 6379:6379 redis:7.2.3-alpine3.18
 
 ### DOCKER ELASTICSEARCH KURULUMU
-    docker run -d -p 9200:9200 -p 9300:9300 -e "ES_JAVA_OPTS=-Xms512m -Xmx1024m" -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+    docker run -d -p 9200:9200 -p 9300:9300 -e "ELASTİC_USERNAME=admin" -e "ELASTIC_PASSWORD=root" "ES_JAVA_OPTS=-Xms512m -Xmx1024m" -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:8.7.1
 
 ### DOCKER DESKTOP UZERINDE UYGULAMALARI YUKLEME
 Sırası ile localde bulunması gerekenler;

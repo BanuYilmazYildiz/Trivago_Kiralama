@@ -1,0 +1,12 @@
+server:
+  port: 9100
+
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+  elasticsearch:
+    uris: http://localhost:9200
+    username: admin
+    password: root
+

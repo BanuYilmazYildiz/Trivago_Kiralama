@@ -6,4 +6,5 @@ include 'ConfigServer'
 include 'ConfigServerGit'
 include 'ApiGateway'
 include 'ApiGatewayServer'
+include 'ElasticService'
 

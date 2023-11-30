@@ -14,4 +14,6 @@ public class RegisterResponseDto {
    private boolean isRegister;
 
    private String message;
+
+
 }

@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 public class LoginResponseDto {
 
     boolean isLogin;
+
     String token;
+
+
 
 }

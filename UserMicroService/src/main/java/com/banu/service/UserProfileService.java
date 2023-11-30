@@ -6,6 +6,7 @@ import com.banu.dto.request.UserProfileSaveRequestDto;
 import com.banu.dto.response.UserProfileResponseDto;
 import com.banu.exception.ErrorType;
 import com.banu.exception.UserException;
+import com.banu.manager.ElasticSearchUserProfileManager;
 import com.banu.mapper.UserProfileMapper;
 import com.banu.repository.UserProfileRepository;
 import com.banu.repository.entity.UserProfile;
@@ -13,6 +14,10 @@ import com.banu.utility.JwtTokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +32,12 @@ public class UserProfileService {
     private final UserProfileRepository repository;
     private final JwtTokenManager jwtTokenManager;
     private final CacheManager cacheManager;
+    private final ElasticSearchUserProfileManager manager;
 
     public UserProfile save(UserProfileSaveRequestDto dto) {
         UserProfile userProfile = repository.save(UserProfileMapper.INSTANCE.fromDto(dto));
-        Objects.requireNonNull(cacheManager.getCache("userprofilefindall")).clear(); //
+        Objects.requireNonNull(cacheManager.getCache("userprofilefindall")).clear();
+        manager.save(UserProfileMapper.INSTANCE.fromUserProfiletoUSerProfileRequestDto(userProfile));
         return userProfile;
     }
 
@@ -66,6 +73,7 @@ public class UserProfileService {
         updateProfile.setPhone(dto.getPhone());
         Objects.requireNonNull(cacheManager.getCache("userprofilefindall")).clear();
         repository.save(updateProfile);
+        manager.update(UserProfileMapper.INSTANCE.fromUserProfiletoUSerProfileRequestDto(updateProfile));
         return true;
     }
 
@@ -97,5 +105,29 @@ public class UserProfileService {
     @Cacheable(value = "userprofilefindall")
     public List<UserProfile> getAllUserProfile() {
         return repository.findAll();
+    }
+
+
+    /**
+     * @param page          -> hangi sayfayı görmek istediğiniz
+     * @param size          -> Bir sayfada kac kayıt görmek istediğinizi belirtir
+     * @param sortParameter -> hangi parametreye göre sıralama yapmak istediğinizi belirtir. (ad, id, userName)
+     * @param sortDirection -> sıralama yönünü belirtir (ASC, DESV
+     * @return
+     */
+    public Page<UserProfile> findAll(int page, int size, String sortParameter, String sortDirection) {
+        Pageable pageable;
+        if (sortParameter != null && !sortParameter.isEmpty()) {
+            /*
+                Sıralama için sort(sıralama) nesnesi yaratmamz gerekli.
+                Sort sıralama yapabilsin diye sort directiona ihtiyacı var A-Z mi Z-A mı olacak.
+                Hangi parametreye göre sırlama yapacaksın -> sortparameter
+             */
+            Sort sort = Sort.by(Sort.Direction.fromString(sortDirection == null ? "ASC" : sortDirection), sortParameter);
+            pageable = PageRequest.of(page, size, sort);
+        } else {
+            pageable = Pageable.ofSize(size).withPage(page);
+        }
+        return repository.findAll(pageable);
     }
 }

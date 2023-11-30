@@ -1,4 +1,4 @@
-package com.banu.dto.request;
+package com.banu.graphql.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class LoginRequestDto {
+public class UserProfileInput {
 
+    Long authId;
+    String name;
     String userName;
-
-    String password;
+    String email;
+    String userId;
+    String phone;
+    String photo;
 
 }

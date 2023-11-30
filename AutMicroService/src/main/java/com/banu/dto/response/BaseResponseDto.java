@@ -16,5 +16,4 @@ public class BaseResponseDto<T> {
     private T data;
 
 
-
 }
