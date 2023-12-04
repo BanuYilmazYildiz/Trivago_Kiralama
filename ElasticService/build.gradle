@@ -7,6 +7,7 @@ buildscript {
 dependencies {
     implementation libs.springCloudConfigClient
     implementation libs.springBootDataElastic
+    implementation libs.springBootSecurity
 
 //    implementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter', version: '12.0.0'
 //    implementation group: 'com.graphql-java-kickstart', name: 'graphiql-spring-boot-starter', version: '11.1.0'

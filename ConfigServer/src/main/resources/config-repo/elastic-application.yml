@@ -2,6 +2,10 @@ server:
   port: 9100
 
 spring:
+  security:
+    user:
+      name: banu
+      password: 123456
   graphql:
     graphiql:
       enabled: true

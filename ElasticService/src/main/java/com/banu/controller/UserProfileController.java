@@ -37,4 +37,18 @@ public class UserProfileController {
     public ResponseEntity<Page<UserProfile>> findAllPage(int page, int size, String sortParameter, String sortDirection){
         return ResponseEntity.ok(userProfileService.findAll(page,size,sortParameter,sortDirection));
     }
+    @GetMapping("/get-message")
+    public String getMessage(){
+        return "Elastic Servis";
+    }
+
+    @GetMapping("/get-secret-message")
+    public String getSecretMessage(){
+        return "Elastic Servis: gizli bir mesaj";
+    }
+
+    @GetMapping("/get-user-message")
+    public String getUserMessage(){
+        return "Kullanıcının gizli mesajı";
+    }
 }
